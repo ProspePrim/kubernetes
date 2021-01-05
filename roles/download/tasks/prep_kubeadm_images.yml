@@ -15,7 +15,12 @@
     - not skip_kubeadm_images|default(false)
 
 - name: prep_kubeadm_images | Copy kubeadm binary from download dir to system path
-  shell: "sshpass -d6 /usr/bin/rsync --delay-updates -F --archive --no-owner --no-group '--out-format=<<CHANGED>>%i %n%L' /tmp/releases/kubeadm-v1.18.6-amd64 /usr/local/bin/kubeadm"
+  copy:
+    src: "{{ local_release_dir }}/kubeadm-{{ kubeadm_version }}-{{ image_arch }}"
+    dest: "{{ bin_dir }}/kubeadm"
+    remote_src: yes
+    mode: preserve
+
 
 - name: prep_kubeadm_images | Set kubeadm binary permissions
   file:
