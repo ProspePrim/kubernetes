@@ -94,6 +94,7 @@
   stat:
     path: /etc/dhcp/dhclient.conf
   register: dhcp_dhclient_stat
+  become: yes
 
 - name: target dhclient conf file for /etc/dhcp/dhclient.conf
   set_fact:

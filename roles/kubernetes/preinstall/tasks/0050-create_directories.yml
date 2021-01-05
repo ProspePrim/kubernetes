@@ -31,6 +31,7 @@
   when:
     - inventory_hostname in groups['k8s-cluster']
     - kube_cert_dir != kube_cert_compat_dir
+  become: yes
 
 - name: Create kubernetes kubeadm compat cert dir (kubernetes/kubeadm issue 1498)
   file:
@@ -41,6 +42,7 @@
     - inventory_hostname in groups['k8s-cluster']
     - kube_cert_dir != kube_cert_compat_dir
     - not kube_cert_compat_dir_check.stat.exists
+  become: yes
 
 - name: Create cni directories
   file:
@@ -65,6 +67,7 @@
     - kube-ovn
     - kube-router
     - bootstrap-os
+  become: yes
 
 - name: Create local volume provisioner directories
   file:
@@ -79,3 +82,4 @@
     - local_volume_provisioner_enabled
   tags:
     - persistent_volumes
+  become: yes

@@ -93,6 +93,8 @@ Vagrant.configure("2") do |config|
         yum update
         yum install -y python3
         yum install -y ansible
+        yum install mc epel-release 
+        yum install wget curl git screen python-pip sshpass
       SHELL
     config.vm.provision :ansible do |ansible|
       ansible.limit = "all"

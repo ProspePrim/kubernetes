@@ -7,6 +7,7 @@
   with_items:
     - swap
     - none
+  become: yes
 
 # kubelet fails even if ansible_swaptotal_mb = 0
 - name: check swap
@@ -17,3 +18,4 @@
 - name: Disable swap
   command: /sbin/swapoff -a
   when: swapon.stdout
+  become: yes
