@@ -10,7 +10,6 @@
 - hosts: all
   vars:
     kernel_ver: 4.4.23
-  remote_user: root
   become: yes
   become_method: sudo
   tasks:
