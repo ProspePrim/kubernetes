@@ -1,0 +1,70 @@
+Vagrant.configure("2") do |config|
+ config.vm.provision "shell", inline: <<-SHELL
+        yum update
+        yum install -y python3
+        yum install -y ansible
+        yum install mc epel-release -y
+        yum install wget curl git screen python-pip sshpass -y
+      SHELL
+    config.vm.provision :ansible do |ansible|
+      ansible.limit = "all"
+      ansible.playbook = "provision.yaml"
+ end
+end
+
+
+Vagrant.configure("2") do |config|
+  config.ssh.insert_key = false
+
+  MasterCount = 3
+   
+  # kub-master
+  (1..MasterCount).each do |i|
+  config.vm.define "kub-master-#{i}" do |km|
+    km.vm.hostname = "kub-master-#{i}"
+    km.vm.box = "geerlingguy/centos7"
+    km.vm.network :private_network, ip: "172.16.3.1#{i}"
+    
+    config.vm.provider :virtualbox do |v|
+      v.name = "kub-master-#{i}"
+      v.gui = false
+      v.memory = 4096
+      v.cpus = 2
+    end
+   end
+  end
+
+    NodeCount = 2
+   # kub-node
+  (1..NodeCount).each do |i|
+    config.vm.define "kub-node-#{i}" do |kn|
+      kn.vm.hostname = "kub-node-#{i}"
+      kn.vm.box = "geerlingguy/centos7"
+      kn.vm.network :private_network, ip: "172.16.3.2#{i}"
+    
+
+    config.vm.provider :virtualbox do |v|
+      v.name = "kub-node-#{i}"
+      v.gui = false
+      v.memory = 4096
+      v.cpus = 2
+    end
+   end
+  end
+
+  # kub-ingress-1.
+  config.vm.define "kub-ingress-1" do |kin1|
+    kin1.vm.hostname = "kub-ingress-1"
+    kin1.vm.box = "geerlingguy/centos7"
+    kin1.vm.network :private_network, ip: "172.16.3.16"
+        
+    config.vm.provider :virtualbox do |v|
+      v.gui = false
+      v.memory = 4096
+      v.cpus = 2
+    end
+  end
+
+
+end
+
