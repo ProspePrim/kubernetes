@@ -7,12 +7,12 @@ Vagrant.configure("2") do |config|
   config.vm.define "kub-master-1" do |km1|
     km1.vm.hostname = "kub-master-1"
     km1.vm.box = "geerlingguy/centos7"
-    km1.vm.network :private_network, ip: "172.16.3.11"
+    km1.vm.network :private_network, ip: "172.16.3.3"
 
     config.vm.provider :virtualbox do |v|
       v.gui = false
-      v.memory = 2048
-      v.cpus = 1
+      v.memory = 4096
+      v.cpus = 2
     end
   end
 
@@ -20,12 +20,12 @@ Vagrant.configure("2") do |config|
   config.vm.define "kub-master-2" do |km2|
     km2.vm.hostname = "kub-master-2"
     km2.vm.box = "geerlingguy/centos7"
-    km2.vm.network :private_network, ip: "172.16.3.12"
+    km2.vm.network :private_network, ip: "172.16.3.4"
 
     config.vm.provider :virtualbox do |v|
       v.gui = false
-      v.memory = 2048
-      v.cpus = 1
+      v.memory = 4096
+      v.cpus = 2
     end
   end
 
@@ -33,27 +33,27 @@ Vagrant.configure("2") do |config|
   config.vm.define "kub-master-3" do |km3|
     km3.vm.hostname = "kub-master-3"
     km3.vm.box = "geerlingguy/centos7"
-    km3.vm.network :private_network, ip: "172.16.3.3"
+    km3.vm.network :private_network, ip: "172.16.3.5"
 
     config.vm.provider :virtualbox do |v|
       v.gui = false
-      v.memory = 2048
-      v.cpus = 1
+      v.memory = 4096
+      v.cpus = 2
     end
   end
 
    # kub-node
 
    (1..NodeCount).each do |i|
-  config.vm.define "kub-node-2#{i}" do |kn|
-    kn.vm.hostname = "kub-node-2#{i}"
+  config.vm.define "kub-node-#{i}" do |kn|
+    kn.vm.hostname = "kub-node-#{i}"
     kn.vm.box = "geerlingguy/centos7"
-    kn.vm.network :private_network, ip: "172.16.3.5#{i}"
+    kn.vm.network :private_network, ip: "172.16.3.1#{i}"
 
     config.vm.provider :virtualbox do |v|
       v.gui = false
-      v.memory = 2048
-      v.cpus = 1
+      v.memory = 8192
+      v.cpus = 2
     end
   end
 end
